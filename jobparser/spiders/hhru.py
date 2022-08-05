@@ -11,6 +11,7 @@ class HhruSpider(scrapy.Spider):
 
     def parse(self, response: HtmlResponse):
         next_page = response.xpath("//a[@data-qa='pager-next']/@href").get()
+
         if next_page:
             yield response.follow(next_page, callback=self.parse)
 
@@ -18,7 +19,7 @@ class HhruSpider(scrapy.Spider):
         for link in links:
             yield response.follow(link, callback=self.vacancy_parse)
 
-        print(f' Перешли на url', response.url)
+        # print(f' Перешли на url', response.url)
 
     def vacancy_parse(self, response: HtmlResponse):
         name = response.xpath("//h1/text()").get()
